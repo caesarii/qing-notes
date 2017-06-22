@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.5",
     "codemirror": "^5.27.0",
     "react": "^15.6.1",
     "react-codemirror": "^1.0.0",

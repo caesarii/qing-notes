@@ -1,0 +1,15 @@
+.btn {
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    border: 1px solid rgb(87, 72, 61);
+    border-radius: 8px;
+    color: white;
+    background: rgb(130, 114, 101);
+    box-shadow: 0 1px rgba(255, 255, 255, 0.1) inset;
+    cursor: pointer;
+}
+
+.btn-ative, .btn:hover {
+    background: rgb(135, 114, 105);
+}

@@ -16,3 +16,10 @@ body {
 #root {
   height: 100%;
 }
+
+.f-r{
+  float: right;
+}
+.f-l {
+  float: left;
+}
