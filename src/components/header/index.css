@@ -1,0 +1,21 @@
+.header {
+    height: 6.5%;
+    background-color: rgb(130, 114, 101);
+}
+
+.header-titleBar {
+    float: left;
+    width: 39%;
+    height: 100%;
+    border-bottom: 1px rgb(86, 73, 68) solid;
+    box-shadow: rgba(0,0,0,.15) 0 1px 8px;
+    border-right:1px rgb(86, 73, 68) solid;
+}
+
+.header-toolBar {
+    float: left;
+    width: 61%;
+    height: 100%;
+    border-bottom: 1px rgb(86, 73, 68) solid;
+    box-shadow: rgba(0,0,0,.15) 0 1px 8px;
+}

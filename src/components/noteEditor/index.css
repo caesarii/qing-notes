@@ -1,0 +1,10 @@
+.noteEditor {
+    float: left;
+    width: 61%;
+    max-width: 1080px;
+    height: 100%;
+    border-right: 1px solid rgba(0,0,0,.03);
+    box-shadow: rgba(30,14,0,.1) 0 3px 8px;
+
+    background-color: rgb(251, 247, 237);
+}
