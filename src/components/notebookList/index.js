@@ -13,7 +13,7 @@ class NotebookList extends Component {
 
   render () {
     console.log(this.props)
-    const {list} = this.props
+    const {list, createBookComplete} = this.props
     console.log('booklist list', list)
     return (
       <div className="notebooks">
@@ -21,7 +21,7 @@ class NotebookList extends Component {
         {/* 默认应该有全部标签 回收站 */}
         {
           list.map((book, index) => {
-            return (<Notebook book={book} key={index}/>)
+            return (<Notebook book={book} createBookComplete={createBookComplete} key={index}/>)
           })
         }
 

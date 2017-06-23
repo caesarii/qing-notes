@@ -5,6 +5,7 @@ import Notelist from '../noteList/index'
 import Note from '../noteEditor/index'
 import Btn from '../../base/btn/index'
 
+import './logo.svg'
 import './index.css'
 
 
@@ -13,12 +14,11 @@ class App extends Component {
     super()
 
     this.createBook = this.createBook.bind(this)
-
+    this.createBookComplete = this.createBookComplete.bind(this)
     this.state = {
       bookList: [
         {type: 'notebook', title: '全部便签', totalNum: '0', status: 'done', active: true}
-
-        ],
+        ]
     }
   }
 
@@ -26,21 +26,42 @@ class App extends Component {
   createBook() {
     const newBook = {
       type: 'notebook',
-      title: 'new book',
+      title: 'new folder',
       totalNum: '0',
-      status: 'new'
+      status: 'create'
     }
     this.setState((prev) => {
+      prev.bookList.push(newBook)
       return {
-        bookList: prev.boolList.push(newBook)
+        bookList: prev.bookList
       }
     })
+
+    console.log('create book', this.state)
   }
 
+  createBookComplete(e) {
+    const type = e.type;
+    const keyCode = e.keyCode
+    const val = e.target.value
+    if(type === 'blur' || type === 'keydown' && keyCode === 13) {
+      console.log('complete')
+      this.setState((prev) => {
+        const prevbooklist = prev.bookList
+        prevbooklist[prevbooklist.length - 1].title = val;
+        prevbooklist[prevbooklist.length - 1].status = 'done'
+        return {
+          bookList: prevbooklist
+        }
+      })
+    }
+
+    }
+
   render () {
-    const {createBook, } = this
-    const {bookList, } = this.state
-    console.log('app booklist', bookList)
+    const {createBook, createBookComplete} = this
+    const {bookList} = this.state
+    console.log('app booklist', this.state)
     return (
         <div className="App">
 
@@ -76,7 +97,7 @@ class App extends Component {
 
           {/* body */}
           <div className="body">
-            <NotebookList list={bookList}/>
+            <NotebookList list={bookList} createBookComplete={createBookComplete}/>
             <Notelist/>
             <Note/>
           </div>

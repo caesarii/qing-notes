@@ -27,6 +27,24 @@
     color: rgb(99, 87, 82);
 
 }
+
+.notebook-create {
+    float: left;
+    margin-left: 10px;
+    line-height: 49px;
+
+    color: rgb(99, 87, 82);
+}
+
+.notebook-create-input {
+    width: 180px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid rgb(220, 214, 202);
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+}
 .notebook-totalNum {
     float: right;
     line-height: 49px;
