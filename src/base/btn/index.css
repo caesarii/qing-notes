@@ -1,6 +1,8 @@
 .btn {
-    display: inline-block;
+    display: block;
+    width: 66px;
     height: 36px;
+    /*margin: 0 14px 0 14px;*/
     line-height: 36px;
     border: 1px solid rgb(87, 72, 61);
     border-radius: 8px;
@@ -8,6 +10,10 @@
     background: rgb(130, 114, 101);
     box-shadow: 0 1px rgba(255, 255, 255, 0.1) inset;
     cursor: pointer;
+
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .btn-ative, .btn:hover {

@@ -8,3 +8,24 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03) inset;
     background: rgb(241, 236, 225);
 }
+
+.note-date {
+    height: 20px;
+    padding: 4px 0 0 20px;
+    line-height: 20px;
+    color: rgb(185, 166, 145);
+    font-size: 12px;
+}
+
+.note-title {
+    height: 20px;
+    line-height: 20px;
+    padding: 4px 20px;
+    color: rgb(99, 87, 83);
+    font-size: 14px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+}

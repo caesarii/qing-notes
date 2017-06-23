@@ -10,15 +10,30 @@ class Header extends Component {
     return (
       <div className="header">
         <div className="header-titleBar">
+          <div className="header-icon" />
+          <div className="header-title">
+            Qing Notes
+          </div>
           <Btn styles={"f-r"}>
-            button
+            <div className="btn-newNote" />
           </Btn>
           <Btn styles={"f-r"}>
-            button
+            <div className="btn-newBook" />
           </Btn>
         </div>
         <div className="header-toolBar">
-          tool bar
+          <Btn styles={"f-l"}>
+            <div className="btn-img" />
+          </Btn>
+          <Btn styles={"f-l"}>
+            <div className="btn-move" />
+          </Btn>
+          <Btn styles={"f-r"}>
+            <div className="btn-share" />
+          </Btn>
+          <Btn styles={"f-r"}>
+            <div className="btn-delete" />
+          </Btn>
         </div>
       </div>
     )

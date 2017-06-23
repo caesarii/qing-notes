@@ -1,3 +1,5 @@
+
+/* app */
 .App {
   height: 100%;
 }
@@ -21,4 +23,85 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+
+/* body */
+.body {
+  overflow: hidden;
+  height: 93.5%;
+  background: url('../../img/woodean.jpg');
+}
+
+/* header */
+.header {
+  height: 6.5%;
+  background-color: rgb(130, 114, 101);
+}
+.header-icon {
+  float: left;
+  width: 48px;
+  height: 48px;
+  margin: 0 10px;
+  background: url(../../img/icon.png) no-repeat ;
+
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.header-title {
+  float: left;
+  color: white;
+
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.header-titleBar {
+  float: left;
+  width: 39%;
+  height: 100%;
+  border-bottom: 1px rgb(86, 73, 68) solid;
+  box-shadow: rgba(0,0,0,.15) 0 1px 8px;
+  border-right:1px rgb(86, 73, 68) solid;
+}
+
+.header-toolBar {
+  float: left;
+  width: 61%;
+  height: 100%;
+  border-bottom: 1px rgb(86, 73, 68) solid;
+  box-shadow: rgba(0,0,0,.15) 0 1px 8px;
+}
+
+[class^='btn-'] {
+  width: 30px;
+  height: 36px;
+  margin: 0 auto;
+  vertical-align: top;
+  background: url(../../img/all_icons.png) no-repeat;
+}
+
+.btn-newBook {
+  background-position: -222px -123px;
+}
+
+.btn-newNote {
+  background-position: -140px -123px;
+}
+
+.btn-img {
+  background-position: -181px -123px;
+}
+.btn-move {
+  background-position: -222px -123px;
+}
+
+.btn-share {
+  background-position: -264px -123px;
+}
+
+.btn-delete {
+  background-position: -304px -123px;
 }

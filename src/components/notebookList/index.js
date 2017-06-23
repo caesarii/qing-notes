@@ -1,17 +1,30 @@
 import React, { Component } from 'react'
 
 import Notebook from '../notebook/index'
+import SearchBox from '../../base/searchBox/index'
 import './index.css'
 
 class NotebookList extends Component {
+  constructor (props) {
+    super()
+
+
+  }
 
   render () {
+    console.log(this.props)
+    const {list} = this.props
+    console.log('booklist list', list)
     return (
       <div className="notebooks">
-        <Notebook />
-        <Notebook />
-        <Notebook />
-        <Notebook />
+        <SearchBox />
+        {/* 默认应该有全部标签 回收站 */}
+        {
+          list.map((book, index) => {
+            return (<Notebook book={book} key={index}/>)
+          })
+        }
+
       </div>
     )
   }

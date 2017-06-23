@@ -2,9 +2,35 @@
     height: 50px;
     border-bottom: 1px rgb(228, 218, 209) solid;
     background: rgb(251, 247, 237);
+
 }
 
 .notebook-active, .notebook:hover {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03) inset;
     background: rgb(241, 236, 225);
+}
+
+.notebook-icon {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 14px 0 0 20px;
+    line-height: 49px;
+    background: url(../../img/all_icons.png) no-repeat -60px -310px;
+}
+
+.notebook-title {
+    float: left;
+    margin-left: 10px;
+    line-height: 49px;
+    font-size: 14px;
+    color: rgb(99, 87, 82);
+
+}
+.notebook-totalNum {
+    float: right;
+    line-height: 49px;
+    margin-right: 20px;
+    color: rgb(184, 166, 146);
+    font-weight: bold;
 }
