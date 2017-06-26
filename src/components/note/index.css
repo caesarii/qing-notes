@@ -27,5 +27,15 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
 
+.note-title-editing {
+    width: 200px;
+    height: 20px;
+    line-height: 20px;
+    margin: 0 20px;
+    border: 1px solid rgb(220, 214, 202);
+    border-radius: 3px;
+    outline: none;
+    font-size: 14px;
 }

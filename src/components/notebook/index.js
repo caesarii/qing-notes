@@ -7,25 +7,29 @@ class Notebook extends Component {
   constructor (props) {
     super()
 
+    this.selectNotebook = this.selectNotebook.bind(this)
 
   }
 
+  selectNotebook () {
+    const selectNotebook = this.props.selectNotebook
+    selectNotebook(this.props.book.id)
 
-
-
+  }
 
   render () {
     const {book, createBookComplete} = this.props
-    const {type, title, totalNum, status, active, } = book
+    const {type, title, totalNum, status, active, notelist} = book
 
     const cls = classNames({
       notebook: true,
-      ['notebook-active']: active
+      ['notebook-active']: active,
     })
 
     return (
-      <div className={cls}>
-        <div className="notebook-icon" />
+      <div className={cls} onClick={this.selectNotebook}
+           onDoubleClick={this.selectNotebook}>
+        <div className="notebook-icon"/>
 
         {
           status === 'done' &&
@@ -36,9 +40,10 @@ class Notebook extends Component {
         }
 
         {
-          status === 'create' && 
-          <div className="notebook-create" >
-            <input type="text" className="notebook-create-input" autoFocus onBlur={createBookComplete} onKeyDown={createBookComplete}/>
+          status === 'create' &&
+          <div className="notebook-create">
+            <input type="text" className="notebook-create-input" autoFocus
+                   onBlur={createBookComplete} onKeyDown={createBookComplete}/>
           </div>
         }
 
