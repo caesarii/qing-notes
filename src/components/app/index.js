@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-
 import NotebookList from '../notebookList/index'
 import Notelist from '../noteList/index'
-import Note from '../noteEditor/index'
+import NoteEditor from '../noteEditor/index'
 import Btn from '../../base/btn/index'
 
 import './index.css'
+
+import {get} from '../../base/utils/index'
 
 class App extends Component {
   constructor (props) {
@@ -13,9 +14,10 @@ class App extends Component {
 
     this.createBook = this.createBook.bind(this)
     this.createBookComplete = this.createBookComplete.bind(this)
-    this.selectNotebook = this.selectNotebook.bind(this)
     this.createNote = this.createNote.bind(this)
     this.completeEditNote = this.completeEditNote.bind(this)
+    this.activateNotebook = this.activateNotebook.bind(this)
+
     this.state = {
       // 当前 book 的 id
       currNotebook: 0,
@@ -53,6 +55,7 @@ class App extends Component {
         bookList: prev.bookList,
       }
     })
+
   }
 
   createBookComplete (e) {
@@ -72,15 +75,11 @@ class App extends Component {
 
   }
 
-  selectNotebook (id) {
+  activateNotebook (id) {
     this.setState((prev) => {
       const newList = prev.bookList
       newList.forEach((book, index) => {
-        if (book.id === id) {
-          book.active = true
-        } else {
-          book.active = false
-        }
+        book.active = book.id === id
       })
       return {
         currNotebook: id,
@@ -128,8 +127,18 @@ class App extends Component {
   }
 
   render () {
-    const {createBook, createBookComplete, selectNotebook, createNote, completeEditNote} = this
-    const {bookList, notelist,} = this.state
+    const {createBook, createBookComplete, activateNotebook, createNote, completeEditNote} = this
+    const {bookList, notelist, currNotebook} = this.state
+
+
+    const currNotelist = notelist.map((note) => {
+      if(note.bookId === currNotebook) {
+        return note
+      }
+    })
+
+    console.log('app notelist', currNotelist)
+
     return (
       <div className="App">
 
@@ -166,9 +175,12 @@ class App extends Component {
         {/* body */}
         <div className="body">
           <NotebookList list={bookList} createBookComplete={createBookComplete}
-                        selectNotebook={selectNotebook}/>
-          <Notelist notelist={notelist} completeEditNote={completeEditNote} />
-          <Note/>
+                        activateNotebook={activateNotebook}/>
+          {
+            currNotelist &&
+            <Notelist notelist={currNotelist} completeEditNote={completeEditNote} />
+          }
+          <NoteEditor/>
         </div>
       </div>
     )

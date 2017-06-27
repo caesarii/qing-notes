@@ -7,19 +7,19 @@ class Notebook extends Component {
   constructor (props) {
     super()
 
-    this.selectNotebook = this.selectNotebook.bind(this)
+    this.activateBook = this.activateBook.bind(this)
 
   }
 
-  selectNotebook () {
-    const selectNotebook = this.props.selectNotebook
-    selectNotebook(this.props.book.id)
+  activateBook () {
+    const activateNotebook = this.props.activateNotebook
+    activateNotebook(this.props.book.id)
 
   }
 
   render () {
     const {book, createBookComplete} = this.props
-    const {type, title, totalNum, status, active, notelist} = book
+    const {type, title, totalNum, status, active,} = book
 
     const cls = classNames({
       notebook: true,
@@ -27,8 +27,8 @@ class Notebook extends Component {
     })
 
     return (
-      <div className={cls} onClick={this.selectNotebook}
-           onDoubleClick={this.selectNotebook}>
+      <div className={cls} onClick={this.activateBook}
+           onDoubleClick={this.activateBook}>
         <div className="notebook-icon"/>
 
         {

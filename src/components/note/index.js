@@ -18,11 +18,7 @@ class Note extends Component {
   render () {
     const {title, status} = this.props.note
     const {completeEdit, } = this
-    console.log('status', status)
     const ct = '06-06'
-
-    console.log('note', this.props.note)
-
     return (
       <div className="note">
         <div className="note-date">{ct}</div>

@@ -13,9 +13,11 @@ class Notelist extends Component {
     return (
       <div className="noteList">
         {
+          notelist.length > 0  &&
           notelist.map((note, index) => {
-            return <Note key={index} note={note} completeEditNote={completeEditNote}/>
-          })
+          return <Note key={index} note={note} completeEditNote={completeEditNote}/>
+        })
+
         }
       </div>
     )
