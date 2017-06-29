@@ -1,6 +1,6 @@
 import React, { Component} from 'react'
 
-import Note from '../note/index'
+import Note from '../notelistItem/index'
 import './index.css'
 
 class Notelist extends Component {
@@ -9,13 +9,13 @@ class Notelist extends Component {
   }
 
   render() {
-    const {notelist, completeEditNote} = this.props
+    const {notelist, completeNoteCreation, activateNote} = this.props
     return (
       <div className="noteList">
         {
           notelist.length > 0  &&
           notelist.map((note, index) => {
-          return <Note key={index} note={note} completeEditNote={completeEditNote}/>
+          return <Note key={index} note={note} completeNoteCreation={completeNoteCreation} activateNote={activateNote}/>
         })
 
         }

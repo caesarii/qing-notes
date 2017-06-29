@@ -1,41 +1,27 @@
-.note {
+.noteEditor {
+    float: left;
+    width: 61%;
+    max-width: 1080px;
+    height: 100%;
+    border-right: 1px solid rgba(0,0,0,.03);
+    box-shadow: rgba(30,14,0,.1) 0 3px 8px;
+    background-color: rgb(251, 247, 237);
+    vertical-align: center;
+}
+
+.editor-toolbar {
+    display: inline-block;
     height: 50px;
-    border-bottom: 1px rgb(228, 218, 209) solid;
-    background: rgb(251, 247, 237);
+    line-height: 50px;
+
 }
 
-.note-active {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03) inset;
-    background: rgb(241, 236, 225);
+.tool-block {
+    display: inline-block;
+    margin: 0 10px
 }
 
-.note-date {
-    height: 20px;
-    padding: 4px 0 0 20px;
-    line-height: 20px;
-    color: rgb(185, 166, 145);
-    font-size: 12px;
-}
-
-.note-title {
-    height: 20px;
-    line-height: 20px;
-    padding: 4px 20px;
-    color: rgb(99, 87, 83);
-    font-size: 14px;
-
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.note-title-editing {
-    width: 200px;
-    height: 20px;
-    line-height: 20px;
-    margin: 0 20px;
-    border: 1px solid rgb(220, 214, 202);
-    border-radius: 3px;
-    outline: none;
-    font-size: 14px;
+.tool-block-title {
+    display: inline-block;
+    margin-right: 10px;
 }

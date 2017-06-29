@@ -12,14 +12,14 @@ class NotebookList extends Component {
   }
 
   render () {
-    const {list, createBookComplete, activateNotebook} = this.props
+    const {list, completeBookCreation, activateNotebook} = this.props
     return (
       <div className="notebooks">
         <SearchBox />
         {/* 默认应该有全部标签 回收站 */}
         {
           list.map((book, index) => {
-            return (<Notebook book={book} createBookComplete={createBookComplete} key={index} activateNotebook={activateNotebook} />)
+            return (<Notebook book={book} completeBookCreation={completeBookCreation} key={index} activateNotebook={activateNotebook} />)
           })
         }
 

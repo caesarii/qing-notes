@@ -25,7 +25,19 @@
   to { transform: rotate(360deg); }
 }
 
+.panel {
+  overflow: hidden;
+  float: left;
+  width: 40%;
+  height: 100%;
+}
 
+.editor {
+  overflow: hidden;
+  float: left;
+  width: 60%;
+  height: 100%;
+}
 /* body */
 .body {
   overflow: hidden;
@@ -98,8 +110,8 @@
   background-position: -222px -123px;
 }
 
-.btn-share {
-  background-position: -264px -123px;
+.btn-save {
+  background-position: -99px -122px;
 }
 
 .btn-delete {

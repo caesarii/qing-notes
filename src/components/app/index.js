@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
 import NotebookList from '../notebookList/index'
-import Notelist from '../noteList/index'
-import NoteEditor from '../noteEditor/index'
+import Notelist from '../notelist/index'
+import Note from '../note/index'
 import Btn from '../../base/btn/index'
 
 import './index.css'
 
-import {get} from '../../base/utils/index'
+import { get } from '../../base/utils/index'
 
 class App extends Component {
   constructor (props) {
     super()
 
     this.createBook = this.createBook.bind(this)
-    this.createBookComplete = this.createBookComplete.bind(this)
+    this.completeBookCreation = this.completeBookCreation.bind(this)
     this.createNote = this.createNote.bind(this)
-    this.completeEditNote = this.completeEditNote.bind(this)
+    this.completeNoteCreation = this.completeNoteCreation.bind(this)
     this.activateNotebook = this.activateNotebook.bind(this)
+    this.activateNote = this.activateNote.bind(this)
 
     this.state = {
       // 当前 book 的 id
@@ -32,7 +33,7 @@ class App extends Component {
           active: false,
         },
       ],
-      notelist: []
+      notelist: [],
     }
   }
 
@@ -56,10 +57,9 @@ class App extends Component {
       }
     })
 
-
   }
 
-  createBookComplete (e) {
+  completeBookCreation (e) {
     const type = e.type
     const keyCode = e.keyCode
     const val = e.target.value
@@ -90,99 +90,127 @@ class App extends Component {
     })
   }
 
-  createNote() {
-    console.log('create note')
+  createNote () {
     const noteId = this.state.notelist.length
     const bookId = this.state.currNotebook
     const newNote = {
       id: noteId,
-      title: '',
+      title: 'new title',
       ct: Date.now(),
       status: 'editing',
       active: false,
-      bookId: bookId
+      bookId: bookId,
+      option: {
+        lineNumbers: true,
+        mode: 'markdown',
+        theme: 'material',
+        readOnly: false,
+      },
     }
 
     const newNotelist = this.state.notelist
     newNotelist.push(newNote)
     this.setState({
       currNoteId: noteId,
-      notelist: newNotelist
+      notelist: newNotelist,
     })
   }
 
-  completeEditNote(value) {
+  completeNoteCreation (value) {
     this.setState((prev) => {
       const newNotelist = prev.notelist
       newNotelist.forEach((note, index) => {
-        if(note.id === this.state.currNoteId) {
+        if (note.id === this.state.currNoteId) {
           note.title = value
           note.status = 'done'
         }
       })
 
       return {
-        notelist: newNotelist
+        notelist: newNotelist,
       }
     })
 
   }
 
+  activateNote (id) {
+    console.log('app activateNote')
+    this.setState((prev) => {
+      const newList = prev.notelist
+      newList.forEach((note) => {
+        note.active = note.id === id
+      })
+      return {
+        currNoteId: id,
+        notelist: newList,
+      }
+    })
+  }
+
   render () {
-    const {createBook, createBookComplete, activateNotebook, createNote, completeEditNote} = this
+    const {createBook, completeBookCreation, activateNotebook, createNote, completeNoteCreation, activateNote} = this
     const {bookList, notelist, currNotebook} = this.state
 
-
     const currNotelist = notelist.map((note) => {
-      if(note.bookId === currNotebook) {
+      if (note.bookId === currNotebook) {
         return note
       }
     })
 
-    console.log('app notelist', currNotelist)
+    const currNoteId = this.state.currNoteId
+    const currNote = notelist.map((note) => {
+      if (note.bookId === currNoteId) {
+        return note
+      }
+    })
 
     return (
       <div className="App">
-
-        {/* header */}
-        <div className="header">
-          <div className="header-titleBar">
-            <div className="header-icon"/>
-            <div className="header-title">
-              Qing Notes
-            </div>
-            <Btn styles={'f-r'}>
-              <div className="btn-newNote" onClick={createNote}/>
-            </Btn>
-            <Btn styles={'f-r'}>
-              <div className="btn-newBook" onClick={createBook}/>
-            </Btn>
+        <div className="panel">
+          <div className="header">
+              <div className="header-icon"/>
+              <div className="header-title">
+                Qing Notes
+              </div>
+              <Btn styles={'f-r'}>
+                <div className="btn-newNote" onClick={createNote}/>
+              </Btn>
+              <Btn styles={'f-r'}>
+                <div className="btn-newBook" onClick={createBook}/>
+              </Btn>
           </div>
-          <div className="header-toolBar">
-            <Btn styles={'f-l'}>
-              <div className="btn-img"/>
-            </Btn>
-            <Btn styles={'f-l'}>
-              <div className="btn-move"/>
-            </Btn>
-            <Btn styles={'f-r'}>
-              <div className="btn-share"/>
-            </Btn>
-            <Btn styles={'f-r'}>
-              <div className="btn-delete"/>
-            </Btn>
-          </div>
-        </div>
-
-        {/* body */}
-        <div className="body">
-          <NotebookList list={bookList} createBookComplete={createBookComplete}
+          <NotebookList list={bookList}
+                        completeBookCreation={completeBookCreation}
                         activateNotebook={activateNotebook}/>
           {
             currNotelist &&
-            <Notelist notelist={currNotelist} completeEditNote={completeEditNote} />
+            <Notelist notelist={currNotelist}
+                      completeNoteCreation={completeNoteCreation}
+                      activateNote={activateNote}/>
           }
-          <NoteEditor/>
+
+        </div>
+        <div className="editor">
+          <div className="header">
+
+              <Btn styles={'f-l'}>
+                <div className="btn-img"/>
+              </Btn>
+              <Btn styles={'f-l'}>
+                <div className="btn-move"/>
+              </Btn>
+              <Btn styles={'f-r'}>
+                <div className="btn-delete"/>
+              </Btn>
+              <Btn styles={'f-r'}>
+                <div className="btn-save"/>
+              </Btn>
+          </div>
+          <div className="body">
+            {
+              currNote.length > 0 && <Note note={currNote[0]}/>
+            }
+          </div>
         </div>
       </div>
     )

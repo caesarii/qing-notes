@@ -18,7 +18,7 @@ class Notebook extends Component {
   }
 
   render () {
-    const {book, createBookComplete} = this.props
+    const {book, completeBookCreation} = this.props
     const {type, title, totalNum, status, active,} = book
 
     const cls = classNames({
@@ -43,7 +43,7 @@ class Notebook extends Component {
           status === 'create' &&
           <div className="notebook-create">
             <input type="text" className="notebook-create-input" autoFocus
-                   onBlur={createBookComplete} onKeyDown={createBookComplete}/>
+                   onBlur={completeBookCreation} onKeyDown={completeBookCreation}/>
           </div>
         }
 
