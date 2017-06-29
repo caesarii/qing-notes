@@ -5,6 +5,23 @@
     height: 100%;
     border-right: 1px solid rgba(0,0,0,.03);
     box-shadow: rgba(30,14,0,.1) 0 3px 8px;
-
     background-color: rgb(251, 247, 237);
+    vertical-align: center;
+}
+
+.editor-toolbar {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+
+}
+
+.tool-block {
+    display: inline-block;
+    margin: 0 10px
+}
+
+.tool-block-title {
+    display: inline-block;
+    margin-right: 10px;
 }

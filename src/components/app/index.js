@@ -56,6 +56,7 @@ class App extends Component {
       }
     })
 
+
   }
 
   createBookComplete (e) {
@@ -64,11 +65,12 @@ class App extends Component {
     const val = e.target.value
     if (type === 'blur' || (type === 'keydown' && keyCode === 13)) {
       this.setState((prev) => {
-        const prevbooklist = prev.bookList
-        prevbooklist[prevbooklist.length - 1].title = val || '未命名'
-        prevbooklist[prevbooklist.length - 1].status = 'done'
+        const currBook = prev.bookList[prev.bookList.length - 1]
+        currBook.title = val || '未命名'
+        currBook.status = 'done'
+        // currBook.active = true
         return {
-          bookList: prevbooklist,
+          bookList: prev.bookList,
         }
       })
     }
@@ -78,7 +80,7 @@ class App extends Component {
   activateNotebook (id) {
     this.setState((prev) => {
       const newList = prev.bookList
-      newList.forEach((book, index) => {
+      newList.forEach((book) => {
         book.active = book.id === id
       })
       return {

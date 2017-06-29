@@ -64,20 +64,26 @@ class Note extends Component {
     return (
       <div className="noteEditor">
         <div className="editor-toolbar">
-          theme：
-          <select value={theme} onChange={this.changeTheme}>
-            <option value="material">material</option>
-            <option value="twilight">twilight</option>
-            <option value="duotone-light">duotone-light</option>
-            <option value="dracula">dracula</option>
-            <option value="3024-day">3024-day</option>
-          </select>
-          mode：
-          <select value={mode} onChange={this.changeMode}>
-            <option value="markdown">markdown</option>
-            <option value="javascript">javascript</option>
-            <option value="python">python</option>
-          </select>
+          <div className="tool-block">
+            <span className="tool-block-title">theme</span>
+            <select value={theme} onChange={this.changeTheme}>
+              <option value="material">material</option>
+              <option value="twilight">twilight</option>
+              <option value="duotone-light">duotone-light</option>
+              <option value="dracula">dracula</option>
+              <option value="3024-day">3024-day</option>
+            </select>
+          </div>
+          <div className="tool-block">
+            <span className="tool-block-title">mode</span>
+            <select value={mode} onChange={this.changeMode}>
+              <option value="markdown">markdown</option>
+              <option value="javascript">javascript</option>
+              <option value="python">python</option>
+            </select>
+          </div>
+
+
         </div>
         
         <Codemirror
