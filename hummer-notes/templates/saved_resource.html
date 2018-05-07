@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)https://cloud.smartisan.com/apps/note/ -->
+<html ng-app="noteApp" class="ng-scope"><!--<![endif]-->
+<head lang="zh-CN">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css">@charset "UTF-8";
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+        display: none !important;
+    }
+
+    ng\:form {
+        display: block;
+    }
+
+    .ng-animate-block-transitions {
+        transition: 0s all !important;
+        -webkit-transition: 0s all !important;
+    }
+
+    .ng-hide-add-active, .ng-hide-remove {
+        display: block !important;
+    }</style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>锤子便签 - 锤子科技</title>
+    <link rel="stylesheet" href="./note-all_93ab1bee3a.css">
+    <script>
+      if (top === window) {
+        !window.LocalEnvironment &&
+        (window.location.href = 'https://cloud.smartisan.com')
+      }
+    </script>
+</head>
+<body class="windows gt-ie9 ng-scope" ng-controller="MainCtrl">
+<div class="main-loading">
+    <div class="rotating-icon"></div>
+    <div class="rotating-bg"></div>
+</div>
+<div class="wrapper" ng-class="{&#39;immersiveOn&#39;: ifImmersive}">
+    <div class="note-left disable-select" style="width: 745px;">
+        <div class="titlebar">
+            <div class="menu-mask ng-hide" ng-mouseleave="removeMenuMask()" ng-show="ifPreventSide"></div>
+            <div class="main-menu" ng-mouseover="openSide()"><span class="brick0"></span> <span class="brick1"></span>
+                <span class="brick2"></span></div>
+            <h1 ng-mouseover="openSide()">锤子便签</h1>
+            <div class="button-normal button-brown f-r a-create-note" ng-show="!isSpecialFolderSelected()"
+                 ng-click="mainTask.newNote()"><span><i class="icon-create"></i></span></div>
+            <div class="button-normal button-brown f-r a-refresh-app" ng-click="mainTask.refresh()"><span><i
+                    class="icon-refresh" ng-class="{on:isRefreshing}"></i></span></div>
+        </div>
+        <div class="column-1" style="width: 285px;">
+            <div class="list-filter ng-scope" ng-controller="ListFilterCtrl">
+                <div class="search-box">
+                    <div class="search-bar a-search-bar">
+                        <div class="text-field-view">
+                            <div class="search-placeholder"
+                                 ng-hide="inputIsFocus || (search.keyword+&#39;&#39;).length!==0">搜索全部便签
+                            </div>
+                            <input type="text" ng-focus="inputIsFocus=true" ng-blur="inputIsFocus=false"
+                                   ng-model="search.keyword" ng-change="searchKeywordChanged(search.keyword)"
+                                   class="text-field a-search-input ng-pristine ng-valid" name="text-field"></div>
+                        <div class="search-icon"></div>
+                        <div class="search-clear ng-hide" ng-show="search.keyword" ng-click="task.cleanSearch()"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="folder-list-wrap ng-scope" ng-controller="FolderListCtrl">
+                <div class="folder-container a-folder-container ps-container ps-theme-default" scrollbar="FolderList"
+                     data-ps-id="1e679a62-b624-85e6-f20a-ac849fd2c172">
+                    <div class="folder-item all-folder on" ng-click="task.listClick(all)"
+                         ng-class="{&#39;on&#39;:all == curFolder}">
+                        <div class="folder-info">
+                            <div class="folder-sum ng-binding">33</div>
+                            <div class="folder-tit-wrap">
+                                <div class="folder-tit ng-binding">全部便签</div>
+                            </div>
+                        </div>
+                        <div class="folder-icon all-icon"></div>
+                    </div>
+                    <div class="folder-item fav-folder" ng-click="task.listClick(folderList[1])"
+                         ng-class="{&#39;on&#39;:folderList[1] == curFolder}">
+                        <div class="folder-info">
+                            <div class="folder-sum ng-binding">1</div>
+                            <div class="folder-tit-wrap">
+                                <div class="folder-tit ng-binding">加星便签</div>
+                            </div>
+                        </div>
+                        <div class="folder-icon fav-icon"></div>
+                    </div>
+                    <div class="folder-item call-folder" ng-click="task.listClick(folderList[2])"
+                         ng-class="{&#39;on&#39;:folderList[2] == curFolder}">
+                        <div class="folder-info">
+                            <div class="folder-sum ng-binding">0</div>
+                            <div class="folder-tit-wrap">
+                                <div class="folder-tit ng-binding">通话便签</div>
+                            </div>
+                        </div>
+                        <div class="folder-icon call-icon"></div>
+                    </div>
+                    <div class="folder-item a-folder-temp ng-hide" ng-show="temp.isShow">
+                        <div class="folder-info">
+                            <div class="folder-sum ng-binding">0</div>
+                            <div class="folder-tit-wrap">
+                                <div class="folder-tit ng-binding"></div>
+                            </div>
+                        </div>
+                        <div class="folder-icon"></div>
+                    </div><!-- ngRepeat: item in folderList --><!-- ngIf: $index > 2 && !$last -->
+                    <!-- end ngRepeat: item in folderList --><!-- ngIf: $index > 2 && !$last -->
+                    <!-- end ngRepeat: item in folderList --><!-- ngIf: $index > 2 && !$last -->
+                    <!-- end ngRepeat: item in folderList --><!-- ngIf: $index > 2 && !$last -->
+                    <!-- end ngRepeat: item in folderList -->
+                    <div class="folder-item trash-can-folder" ng-click="task.listClick(trash)"
+                         ng-class="{&#39;on&#39;:trash == curFolder}">
+                        <div class="folder-info">
+                            <div class="folder-sum ng-binding">55</div>
+                            <div class="folder-tit-wrap">
+                                <div class="folder-tit ng-binding">回收站</div>
+                            </div>
+                        </div>
+                        <div class="folder-icon trash-can-icon"></div>
+                    </div>
+                    <div class="folder-name-input-wrap a-folder-name-input-wrap">
+                        <div class="folder-name-input-border">
+                            <div class="folder-name-input a-folder-name-input"></div>
+                        </div>
+                    </div>
+                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                        <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                    </div>
+                    <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                        <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                    </div>
+                </div>
+                <div class="bottom-menu">
+                    <div ng-click="task.createFolderBtnClick()" class="create-folder-btn"></div>
+                    <div class="ad" ng-click="layer.toggle(&#39;BottomAds&#39;)"></div>
+                </div>
+                <div class="apps-ads" stopbubble="" appsads="" layer="BottomAds">
+                    <div class="apps-ads-tab-bd">
+                        <div class="item-wrap"><!-- ngRepeat: app in appsKey -->
+                            <div class="item ng-scope" ng-repeat="app in appsKey">
+                                <div class="qrcode" id="apps-ads-qrcode-notes"
+                                     title="http://www.smartisan.com/apps/notes">
+                                    <canvas width="110" height="110" style="display: none;"></canvas>
+                                    <img alt="Scan me!"
+                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAABuCAYAAADGWyb7AAAGm0lEQVR4Xu2dPbcTMQxE834vFNBCTU3D/w1FzstZNuv1vSs7XwwlRyvLM9JIdjZ5Hz++fTmfBv779fvP1dvP7183PS9tlgYt+1Z4xM+oeEb5GQX1R4g7ne6ZAMOJawVPFlpWCslMUkEtn60KJeCTvSxtWnsh/2/jJLEtMblWXIi7hY4QNCrBQtwKAds3X7riyGZJNpIsqgwnBGQbA1GeUfhU/GxKZcUh2XgLTLKu7Y8hboVAKm4/JQg+JFFbfqZWXKVxkzOgnWatGtj4iXTbqTvEndrnNSLd9riRijsg0aRaSe9Lxe2AT7KdgNySKTK12moi8bxNxRFgCcgWNOIzxK36SEWyyMRFjgb/FXEkq8ldnAV/1NRHehORaDsB2qmygvPT3lWSTZHjwIxkILGRHkf8tAokxK3QI8lAAL8bcSQYYkMCJuC8qx+CIbG52wep70qE3RchhdiEuNPpdE8FIKQQm4/z+Tz0nROyKJnoyLnPHjcq0yaZoit7t8+GOIvYToUecHX4kRB3ALpRlXtg6esjXeJIkNbGyqAdAMgVlj3fzZZ3cnhf2oS4StqvZNMmZGtpcmMT4l6VuM8XYq0c2dKu2FeeJbJZ5G7zcbIukevW5Nx9dYGULbGpgF95lgAY4nY0vwJ+5dm3JW7EAXzUVEkO1MSGTICWUGJvbchemlIZ4v6lmYBpb1HIlZpVle5USfQ/FXdB6akqjpBCpIlkFJlsW9leOUORdQkO1qYSc7fiSDAh7oIAwaoixcNvTkLcA4jrHcCJxBEbctisJAB5lkiilWJbZbYPtuLpHsAJKcQmxB0bYELczjufpAoqyTmjKjdfXahcYVXOOOToMcrGyqbd12zJDXFwGgxxq5Kxbzun4i4IdF+IrVzXVLLUTolkLZskdqCy/m3fXPoPcTslHOIO9JFU3O3xYbPiWkCRCZOM08SmJR1EBm3vsyM68W+xqsTQfZPZBmNBrtzdWSkbFduoJA9xpBx2plmrBk9BXO+DVJsVpAoe5dP2TRInOWjbFkASY8jHOpUNkmwflQwh7oDsVPpLiLudMFXF2ZKv3AcSCSL+rRqQBLOXEuSgbbENcTuDDSGITN0hbgVyKg5+eYHcxZFhg0zvxA+xsRJEfJKeS6SeTI/d9yrJQTjE3Q4JJAkJblZOrz0uxO2TMmrIIUSTvqmII4tWsqsy0dlnSYYT2SRyR3Cz8Ye4ge+ikH5KSCTTbIh7deLsFER0mGSgldZRPslkOCo24sfK8uYB3C5k7W2S2D5SiWdGbJV4uscBG3Aqbr9bzcbn8DsnlSZLJqiWf9K4SWxEcq0fGzOxb9mEuAO/jm4JtWdAIq0h7lWJ2/oEnDBeueAltzQVOa1IEJk2rX/b70hFD58qLaGk11ipscCSGAiYJCFJUZC1QtwKpZerOJItRL5Iddisq1QxOQOSSdXGULFXFRfiLnBVAB+VACFuB4FnIIioU/Mc9zlVkoojEmd7hF2XAE4k3Q4w5C5xRmzdKy8LIOkdpOTtujPAaRFNpk0rjzapQhw8aJNEIuATGbQ2y3XVcYDIINm4tbEyRSqdVJmtOKJCpN2Q+EPcgZ9qrJAe4iZ9WZJUzVMQ1/tloco9G5G4ihzZ2Eg8s30S0kmc3V8WshsZRYTdIJEgAojdr/Vp99WyD3Hwb+tUJJSQaxN+8y0vknVkwrTZRabNis9RMRMSyV4qNiFuZ/Ym8tuqlAoppHBC3KsS9zlVkkMfyYRRMmLvEsm61udsabV9bRlP9+cyrBQQAImMWJDJutZniHvg3wcn4FcSiQxLVs1aPv+puN7PZZBFSSaTkdiCTKTbrlshkVwaE1IInt3vgIe4CwKVpCJEWP8hbpKMWyKsvRpOSPURaSKDhP2AktiPit9KNImt5bP1/yFuxSZJvBC3A9qMLH3LiiMaW2myMyYueyVliZsRM5kqSdJ2v/RBNks2SGzIpkadmyp9tpLAZI8hjmTdAbl+WuKIBJEpqLLBSoUu1yWDRMueVMcMBSADUveD1EdJSoi7RX6JSYgrHgfesuKI5JI2RKSDKANZq1LppH2Qu1CC29SKIwEQMEPcLUohboVJKm4HECJrBMBRNqTqR9kQFSIKM7XibOMmPaIyolduh0LcDgIh7gLO4Yqz2UUky/ok1UoqiMRmbexeCBFkL8t173ZXaTcb4vYRC3HwWz9kqCBDl+3RLZ8P+SCV9DIClJUXC1rlsEzuSEn8rRhCHBwGlqRbUkgCtCorxB04aBPAR9lY4v4CBbCxE6X4fmAAAAAASUVORK5CYII="
+                                         style="display: block;"></div>
+                                <div class="name ng-binding">下载锤子便签 APP</div>
+                            </div><!-- end ngRepeat: app in appsKey --></div>
+                    </div>
+                    <i class="apps-ads-arrow"><b></b></i></div>
+            </div>
+        </div>
+        <div class="column-2" style="left: 285px;">
+            <div class="note-list ng-scope ps-container ps-theme-default" scrollbar="NoteList"
+                 ng-controller="NoteListCtrl" data-ps-id="a4c76155-7ea3-76df-a338-240a1a3accd5">
+                <div class="note-container a-note-container"
+                     ng-style="{&#39;min-height&#39;:noteListContainerMinHeight}" style="min-height: 1650px;">
+                    <!-- ngIf: sortNoteList.length == 0 -->
+                    <div class="note-visible-wrap" ng-style="{&#39;top&#39;:visibleNoteListPos}" style="top: 0px;">
+                        <!-- ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope on" id="noten2t1497948820116"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">6月20日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">浙江省杭州市拱墅区教工路552号二维火科技208室</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten86t1497517097284"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">6月15日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">大学里不用学习&nbsp;是错的&nbsp;大学里只学习是不行的&nbsp;大学里要学的是安身立命的本事</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten84t1497517095256"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">6月12日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">//&nbsp;@Barret李靖:转变下思维，说下我对工具的影响，而不仅仅是工具对我的影响，比如性</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten83t1497517095256"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">6月12日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">每当集中面试都会有一些感慨。最近一轮简历都是说我会Vue+webpack做什么什么，对组件</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten85t1497517095257"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">6月11日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">Java是过度设计的语言典范；Python和Node在这个问题上好很多；两者相比Python生态圈占</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten81t1497517095256"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">5月27日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">萧大语录</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten80t1497517095256"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">5月18日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">刚刚说的其实就是框架吹的那一套&nbsp;</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten74t1497517095255"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">5月10日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">1656</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten77t1497517095255"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">5月10日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">3.1</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten79t1497517095256"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">5月4日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">设置路由器:登陆192.168.1.1</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten69t1497517095254"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">4月15日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">诚招心理学被试for[西溪401][4.16][周天]</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten64t1497517095251"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">4月15日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">实验室服务器：http://10.22.62.224:5000/</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten60t1497517095250"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">4月13日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">王庆合</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten62t1497517095251"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">4月13日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">有本事的人制定规则，普通人遵守规则，没本事的人地玩不转规则还嘲讽规则。</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten68t1497517095253"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">4月10日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">被试</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten22t1497517095235"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">3月8日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">noble&nbsp;和&nbsp;点餐</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten58t1497517095249"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">2月11日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">中行</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten59t1497517095250"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">2月5日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">2weihuo@2017</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope is-image-note" id="noten57t1497517095249"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">1月19日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">回家</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten55t1497517095248"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">1月19日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">待办事项</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten42t1497517095243"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">1月16日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">江苏，214122</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten54t1497517095248"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">1月11日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">心得</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten53t1497517095248"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">1月10日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">手机qq下载文件存储位置</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten52t1497517095247"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">1月5日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">tron</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten51t1497517095247"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">2016年12月31日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">看不完的大v推荐入门书，那是自学的路漫漫其修远。学了那么多语法和api，还是写不出几</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope is-image-note" id="noten49t1497517095246"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">2016年12月30日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">图片便签</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope is-image-note" id="noten48t1497517095246"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">2016年12月30日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">中行卡</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten45t1497517095244"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">1月11日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji" class="ng-binding">待学习的内容的列表</span>
+                            </div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope is-image-note" id="noten43t1497517095243"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">2016年12月5日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">身份证</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList -->
+                        <div class="note-item ng-scope" id="noten31t1497517095240"
+                             ng-click="task.listClick(item, $event)"
+                             ng-class="{&#39;on&#39;:isSelected(item),&#39;is-image-note&#39;:item.isImageNote,&#39;is-call-note&#39;:item.isCallNote}"
+                             ng-repeat="item in visibleNoteList">
+                            <div class="note-status">
+                                <div class="fav" stopbubble="bodyclick"
+                                     ng-class="{&#39;on&#39;:$filter(&#39;isFavorite&#39;)(item)}"
+                                     ng-click="task.favoriteClick(item)"></div>
+                                <div class="image-note"></div>
+                                <div class="time ng-binding">2016年11月8日</div>
+                            </div>
+                            <div class="note-title"><span ng-bind-html="item.title|titleEmoji"
+                                                          class="ng-binding">439013</span></div>
+                        </div><!-- end ngRepeat: item in visibleNoteList --></div>
+                </div>
+                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                    <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                </div>
+                <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                    <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                </div>
+            </div>
+            <div class="bottom-menu ng-scope" ng-controller="BottomMenuCtrl">
+                <div class="column-btn" ng-class="{column2: Global.column == 2}" ng-click="task.fold()"></div>
+                <label class="select-sum ng-binding ng-hide" ng-show="selectedCounter &gt; 1">已选择 1 张便签</label></div>
+        </div>
+    </div>
+    <div class="note-right" style="left: 745px;">
+        <div class="toolbar-view ng-scope" ng-controller="NoteMenuCtrl">
+            <div ng-show="isShow(&#39;insertImage&#39;)" preventdefault="" stopbubble=""
+                 class="button-normal button-brown ml-14 mr-0 f-l a-insert-image-button" style="position: relative;">
+                <span uploader="" class="ng-scope" style="position: relative; z-index: 1;"><i class="icon-insertImage"
+                                                                                              title="插入图片"></i></span>
+                <label id="IE9FileBugLabel-normal" for="html5_1bj6ngp86kpk7e21j8s1ecn29b3"></label>
+                <div id="html5_1bj6ngp86kpk7e21j8s1ecn29b3_container" class="moxie-shim moxie-shim-html5"
+                     style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; overflow: hidden; z-index: 0;">
+                    <input id="html5_1bj6ngp86kpk7e21j8s1ecn29b3" type="file"
+                           style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
+                           accept="image/jpeg,.jpg,.jpeg,image/png,.png,image/webp,.webp"></div>
+            </div>
+            <div ng-show="isShow(&#39;moveNote&#39;)" ng-class="{disabled:isDisabled(&#39;moveNote&#39;)}"
+                 class="button-normal button-brown a-move-note-button f-l ml-14 mr-0"
+                 ng-click="!isDisabled(&#39;moveNote&#39;) &amp;&amp; task.moveBtnClick()"><span><i
+                    class="icon-moveNote" title="移动到..."></i></span></div>
+            <div ng-show="isShow(&#39;recoverNote&#39;)"
+                 class="button-normal button-brown a-recover-note-button f-l ml-14 mr-0 ng-hide" btnactive=""
+                 ng-click="task.recoverBtnClick()"><span>恢复</span></div>
+            <div ng-show="isShow(&#39;deleteNote&#39;)" class="delete-button-container a-delete-button-container">
+                <div class="button-normal button-red" ng-class="{disabled:isDisabled(&#39;deleteNote&#39;)}"
+                     ng-click="!isDisabled(&#39;deleteNote&#39;) &amp;&amp; task.deleteBtnClick()"><span><i
+                        class="icon-delete" title="删除便签"></i></span></div>
+                <div class="deleted-blackhole"></div>
+            </div>
+            <div ng-show="isShow(&#39;unimmersive&#39;)"
+                 class="button-normal button-brown f-l unimmersive-button ng-hide" btnactive="" preventdefault=""
+                 stopbubble="" ng-click="task.immersiveModeSwitch(false)" title="退出写作模式"><span><i
+                    class="immersive-icon icon-back"></i></span></div>
+            <div ng-show="isShow(&#39;shareNote&#39;)" ng-class="{disabled:isDisabled(&#39;shareNote&#39;)}"
+                 class="button-normal button-brown f-r a-web-preview-button" btnactive=""
+                 ng-click="!isDisabled(&#39;shareNote&#39;) &amp;&amp; task.webPreviewBtnClick()"><span><i
+                    class="immersive-icon icon-share" title="分享便签"></i></span></div>
+            <div ng-show="isShow(&#39;unimmersive&#39;)" class="button-normal button-brown f-r refresh-button ng-hide"
+                 btnactive="" ng-click="mainTask.refresh()" title="同步云便签"><span><i class="immersive-icon icon-refresh"
+                                                                                   ng-class="{on:isRefreshing}"></i></span>
+            </div>
+            <div class="share-func-group">
+                <div ng-show="isShow(&#39;saveImage&#39;)" ng-class="{disabled:isDisabled(&#39;saveImage&#39;)}"
+                     class="button-normal button-brown f-r a-save-image-button ng-hide" btnactive=""
+                     ng-click="!isDisabled(&#39;saveImage&#39;) &amp;&amp; task.saveImage()"><span>保存图片</span></div>
+                <div ng-show="isShow(&#39;imgShareToWeibo&#39;)"
+                     ng-class="{disabled:isDisabled(&#39;imgShareToWeibo&#39;)}"
+                     class="button-normal button-brown f-r a-share-image-button ng-hide" btnactive=""
+                     ng-click="!isDisabled(&#39;imgShareToWeibo&#39;) &amp;&amp; task.imgShareBtnClick()">
+                    <span>图片分享至微博</span></div>
+                <a href="javascript:;" ng-show="isShow(&#39;shareToLongWeibo&#39;)"
+                   class="button-normal button-brown f-r a-share-button ng-hide" btnactive=""
+                   ng-click="task.webShareBtnClick()"><span>分享至新浪长微博</span></a></div>
+            <div ng-show="isShow(&#39;back&#39;)"
+                 class="button-normal button-brown f-l ml-14 a-cancel-preview-button ng-hide" btnactive=""
+                 ng-click="task.cancelBtnClick()"><span class="cancel-text">取消</span> <span ng-show="ifImmersive"
+                                                                                            class="ng-hide"><i
+                    class="immersive-icon icon-preview"></i></span></div>
+        </div>
+        <div class="edit-wrap ng-scope" ng-controller="NoteEditCtrl" ng-class="{off: $filter(&#39;isBlank&#39;)(note)}">
+            <div class="edit-back"><i></i></div>
+            <div class="edit-words-left ng-binding ng-hide" ng-show="leftText"></div>
+            <div class="edit-con" ng-class="{off: $filter(&#39;isBlank&#39;)(note)}">
+                <div class="edit-status" ng-class="{off: $filter(&#39;isBlank&#39;)(note)}"><i class="edge"></i>
+                    <div class="edit-mode-switch" ng-click="layer.toggle(&#39;EditMode&#39;)"><span class="ng-binding">纯文本模式</span>
+                        <div class="edit-mode-switch-arrow"></div>
+                    </div>
+                    <div class="edit-mode-option-list" layer="EditMode">
+                        <div class="edit-mode-option first" ng-click="task.editModeSwitch(0)">纯文本模式</div>
+                        <span class="arrow"><b></b></span>
+                        <div class="edit-mode-option" ng-click="task.editModeSwitch(2)">Markdown&nbsp;模式<a
+                                href="https://cloud.smartisan.com/apps/note/md.html" ng-click="stopBubble()"
+                                target="_blank" id="markdown-helper" class="markdown-helper"></a></div>
+                        <div class="edit-mode-option last" ng-click="task.editModeSwitch(1)">富文本模式</div>
+                    </div>
+                    <span class="splitline ng-hide" ng-show="ifImmersive"></span>
+                    <div class="rtf-btn rtf-btn-pictrue  a-insert-image ng-hide" preventdefault="" stopbubble=""
+                         ng-class="{disabled:isDisabled(&#39;insertImage&#39;)}" btnactive="" ng-show="ifImmersive"
+                         style="position: relative;">
+                        <div uploader="" class="ng-scope" style="position: relative; z-index: 1;"></div>
+                        <label id="IE9FileBugLabel-immersive" for="html5_1bj6ngp8ggpbbm1afblfq1l66"></label>
+                        <div id="html5_1bj6ngp8ggpbbm1afblfq1l66_container" class="moxie-shim moxie-shim-html5"
+                             style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; overflow: hidden; z-index: 0;">
+                            <input id="html5_1bj6ngp8ggpbbm1afblfq1l66" type="file"
+                                   style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
+                                   accept="image/jpeg,.jpg,.jpeg,image/png,.png,image/webp,.webp"></div>
+                    </div>
+                    <span class="splitline ng-hide" ng-show="ifImmersive"></span> <span
+                            class="rtf-btn rtf-btn-head normal ng-hide" preventdefault="" stopbubble=""
+                            ng-click="task.rtfBtnClick(&#39;head&#39;,$event)" ng-show="note.formatting_mode == 1"
+                            title="标题">H</span> <span class="rtf-btn rtf-btn-center normal ng-hide" preventdefault=""
+                                                      stopbubble="" ng-click="task.rtfBtnClick(&#39;center&#39;,$event)"
+                                                      ng-show="note.formatting_mode == 1" title="居中">C</span> <span
+                            class="rtf-btn rtf-btn-list normal ng-hide" preventdefault="" stopbubble=""
+                            ng-click="task.rtfBtnClick(&#39;ul&#39;,$event)" ng-show="note.formatting_mode == 1"
+                            title="列表">L</span> <span class="rtf-btn rtf-btn-quote normal ng-hide" preventdefault=""
+                                                      stopbubble="" ng-click="task.rtfBtnClick(&#39;quote&#39;,$event)"
+                                                      ng-show="note.formatting_mode == 1" title="引用">Q</span> <span
+                            class="rtf-btn rtf-btn-bold normal ng-hide" preventdefault="" stopbubble=""
+                            ng-click="task.rtfBtnClick(&#39;bold&#39;,$event)" ng-show="note.formatting_mode == 1"
+                            title="粗体">B</span> <span class="rtf-btn rtf-btn-todo ng-hide"
+                                                      ng-class="{&#39;active&#39;: rtfBtn.todo == &#39;active&#39; || rtfBtn.todo_checked == &#39;active&#39;, &#39;normal&#39;: rtfBtn.todo == &#39;normal&#39; &amp;&amp; rtfBtn.todo_checked == &#39;normal&#39;}"
+                                                      preventdefault="" stopbubble=""
+                                                      ng-click="task.rtfBtnClick(&#39;todo&#39;,$event)"
+                                                      ng-show="note.formatting_mode == 1" title="待办事项">T</span>
+                    <div class="status-bar"><span preventdefault="" stopbubble="" class="immersive" btnactive=""
+                                                  ng-click="task.immersiveModeSwitch(true)"></span> <span
+                            class="split-line"></span> <span class="favorite"
+                                                             ng-class="{&#39;on&#39;: $filter(&#39;isFavorite&#39;)(note)}"
+                                                             ng-click="task.favoriteClick()"></span> <span
+                            class="split-line"></span> <span class="counter ng-binding">共 25 字</span> <span
+                            class="split-line"></span> <span class="time ng-binding">6-20 4:54 PM</span> <span
+                            class="split-line"></span>
+                        <div class="folder"><span ng-bind-html="note|folderName" class="ng-binding">全部便签</span><i></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="edit-wrap-scroller ps-container ps-theme-default" scrollbar="EditWrap"
+                     data-ps-id="778e5ba7-0928-54e0-7837-7ed41bc91505">
+                    <div class="edit-area disable-select">
+                        <div class="edge"></div>
+                        <div class="note-editor" id="editor" style="position: relative;">
+                            <div class="CodeMirror cm-s-default CodeMirror-wrap">
+                                <div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 20px; left: 0px;">
+                                    <textarea autocorrect="off" autocapitalize="off" spellcheck="false"
+                                              style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none;"
+                                              tabindex="0"></textarea></div>
+                                <div class="CodeMirror-vscrollbar" cm-not-content="true">
+                                    <div style="min-width: 1px; height: 0px;"></div>
+                                </div>
+                                <div class="CodeMirror-hscrollbar" cm-not-content="true">
+                                    <div style="height: 100%; min-height: 1px; width: 0px;"></div>
+                                </div>
+                                <div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div>
+                                <div class="CodeMirror-gutter-filler" cm-not-content="true"></div>
+                                <div class="CodeMirror-scroll" tabindex="-1">
+                                    <div class="CodeMirror-sizer"
+                                         style="margin-left: 0px; margin-bottom: -17px; border-right-width: 13px; min-height: 100px; padding-right: 0px; padding-bottom: 0px;">
+                                        <div style="position: relative; top: 0px;">
+                                            <div class="CodeMirror-lines">
+                                                <div style="position: relative; outline: none;">
+                                                    <div class="CodeMirror-measure"></div>
+                                                    <div class="CodeMirror-measure"></div>
+                                                    <div style="position: relative; z-index: 1;"></div>
+                                                    <div class="CodeMirror-cursors">
+                                                        <div class="CodeMirror-cursor"
+                                                             style="left: 0px; top: 0px; height: 20px;">&nbsp;
+                                                        </div>
+                                                    </div>
+                                                    <div class="CodeMirror-code">
+                                                        <pre class=" CodeMirror-line "><span
+                                                                style="padding-right: 0.1px;">浙江省杭州市拱墅区教工路552号二维火科技208室</span></pre>
+                                                        <div class="cm-polish-line" style="position: relative;">
+                                                            <pre class=" CodeMirror-line "><span
+                                                                    style="padding-right: 0.1px;"><span
+                                                                    cm-text="">​</span></span></pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="position: absolute; height: 13px; width: 1px; border-bottom: 0px solid transparent; top: 100px;"></div>
+                                    <div class="CodeMirror-gutters" style="display: none; height: 113px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alt-input" style="top: 0px; left: -3000px;">
+                            <div class="CodeMirror cm-s-default CodeMirror-wrap">
+                                <div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 0px;">
+                                    <textarea autocorrect="off" autocapitalize="off" spellcheck="false"
+                                              style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none;"
+                                              tabindex="0"></textarea></div>
+                                <div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div>
+                                <div class="CodeMirror-gutter-filler" cm-not-content="true"></div>
+                                <div class="CodeMirror-scroll" tabindex="-1">
+                                    <div class="CodeMirror-sizer"
+                                         style="margin-left: 0px; margin-bottom: -17px; border-right-width: 13px; min-height: 30px; padding-right: 0px; padding-bottom: 0px;">
+                                        <div style="position: relative; top: 0px;">
+                                            <div class="CodeMirror-lines">
+                                                <div style="position: relative; outline: none;">
+                                                    <div class="CodeMirror-measure"><span><span>​</span>x</span></div>
+                                                    <div class="CodeMirror-measure"></div>
+                                                    <div style="position: relative; z-index: 1;"></div>
+                                                    <div class="CodeMirror-cursors">
+                                                        <div class="CodeMirror-cursor"
+                                                             style="left: 0px; top: 0px; height: 19.5px;">&nbsp;
+                                                        </div>
+                                                    </div>
+                                                    <div class="CodeMirror-code">
+                                                        <pre class=" CodeMirror-line "><span
+                                                                style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="position: absolute; height: 13px; width: 1px; border-bottom: 0px solid transparent; top: 30px;"></div>
+                                    <div class="CodeMirror-gutters" style="display: none; height: 43px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                        <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                    </div>
+                    <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                        <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="edit-wrap-copy a-edit-wrap-copy selected1" notecopy="">
+            <div class="edit-con copy0">
+                <div class="edit-status" ng-class="{off: $filter(&#39;isBlank&#39;)(note0)}"><i class="edge"></i>
+                    <div class="edit-mode-switch" ng-click="layer.toggle(&#39;EditMode&#39;)"><span class="ng-binding">纯文本模式</span>
+                        <div class="edit-mode-switch-arrow"></div>
+                    </div>
+                    <span class="favorite" ng-class="{&#39;on&#39;: $filter(&#39;isFavorite&#39;)(note1)}"></span> <span
+                            class="split-line"></span> <span class="counter ng-binding">共 25 字</span> <span
+                            class="split-line"></span> <span class="time ng-binding">6-20 4:54 PM</span> <span
+                            class="split-line"></span>
+                    <div class="folder"><span ng-bind-html="note0|folderName" class="ng-binding">全部便签</span><i></i>
+                    </div>
+                </div>
+                <div class="edit-area disable-select">
+                    <div class="edge"></div>
+                    <div class="note-editor" id="editorcopy0" style="height: auto;">
+                        <div class="CodeMirror cm-s-default CodeMirror-wrap">
+                            <div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 0px;">
+                                <textarea autocorrect="off" autocapitalize="off" spellcheck="false"
+                                          style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none;"
+                                          tabindex="0"></textarea></div>
+                            <div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div>
+                            <div class="CodeMirror-gutter-filler" cm-not-content="true"></div>
+                            <div class="CodeMirror-scroll" tabindex="-1">
+                                <div class="CodeMirror-sizer"
+                                     style="margin-left: 0px; margin-bottom: -17px; border-right-width: 13px; min-height: 100px; padding-right: 0px; padding-bottom: 0px;">
+                                    <div style="position: relative; top: 0px;">
+                                        <div class="CodeMirror-lines">
+                                            <div style="position: relative; outline: none;">
+                                                <div class="CodeMirror-measure">
+                                                    <pre><span>xxxxxxxxxx</span></pre>
+                                                </div>
+                                                <div class="CodeMirror-measure"></div>
+                                                <div style="position: relative; z-index: 1;"></div>
+                                                <div class="CodeMirror-cursors">
+                                                    <div class="CodeMirror-cursor"
+                                                         style="left: 0px; top: 0px; height: 50px;">&nbsp;
+                                                    </div>
+                                                </div>
+                                                <div class="CodeMirror-code">
+                                                    <pre class=" CodeMirror-line "><span style="padding-right: 0.1px;">浙江省杭州市拱墅区教工路552号二维火科技208室</span></pre>
+                                                    <div class="cm-polish-line" style="position: relative;">
+                                                        <pre class=" CodeMirror-line "><span
+                                                                style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="position: absolute; height: 13px; width: 1px; border-bottom: 0px solid transparent; top: 100px;"></div>
+                                <div class="CodeMirror-gutters" style="display: none; height: 113px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alt-input" style="top: 0px; left: -3000px;"></div>
+                </div>
+            </div>
+            <div class="edit-con copy1">
+                <div class="edit-status off" ng-class="{off: $filter(&#39;isBlank&#39;)(note1)}"><i class="edge"></i>
+                    <div class="edit-mode-switch" ng-click="layer.toggle(&#39;EditMode&#39;)"><span class="ng-binding">纯文本模式</span>
+                        <div class="edit-mode-switch-arrow"></div>
+                    </div>
+                    <span class="favorite" ng-class="{&#39;on&#39;: $filter(&#39;isFavorite&#39;)(note1)}"></span> <span
+                            class="split-line"></span> <span class="counter ng-binding">共 0 字</span> <span
+                            class="split-line"></span> <span class="time ng-binding"> NaN:0NaN AM</span> <span
+                            class="split-line"></span>
+                    <div class="folder"><span ng-bind-html="note1|folderName" class="ng-binding"></span><i></i></div>
+                </div>
+                <div class="edit-area disable-select">
+                    <div class="edge"></div>
+                    <div class="note-editor" id="editorcopy1" style="height: auto;">
+                        <div class="CodeMirror cm-s-default CodeMirror-wrap">
+                            <div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 0px;">
+                                <textarea autocorrect="off" autocapitalize="off" spellcheck="false"
+                                          style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none;"
+                                          tabindex="0"></textarea></div>
+                            <div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div>
+                            <div class="CodeMirror-gutter-filler" cm-not-content="true"></div>
+                            <div class="CodeMirror-scroll" tabindex="-1">
+                                <div class="CodeMirror-sizer"
+                                     style="margin-left: 0px; margin-bottom: -17px; border-right-width: 13px; min-height: 50px; padding-right: 0px; padding-bottom: 0px;">
+                                    <div style="position: relative; top: 0px;">
+                                        <div class="CodeMirror-lines">
+                                            <div style="position: relative; outline: none;">
+                                                <div class="CodeMirror-measure">
+                                                    <pre><span>xxxxxxxxxx</span></pre>
+                                                </div>
+                                                <div class="CodeMirror-measure"></div>
+                                                <div style="position: relative; z-index: 1;"></div>
+                                                <div class="CodeMirror-cursors">
+                                                    <div class="CodeMirror-cursor"
+                                                         style="left: 0px; top: 0px; height: 50px;">&nbsp;
+                                                    </div>
+                                                </div>
+                                                <div class="CodeMirror-code">
+                                                    <pre class=" CodeMirror-line "><span
+                                                            style="padding-right: 0.1px;"><span
+                                                            cm-text="">​</span></span></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="position: absolute; height: 13px; width: 1px; border-bottom: 0px solid transparent; top: 50px;"></div>
+                                <div class="CodeMirror-gutters" style="display: none; height: 63px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alt-input" style="top: 0px; left: -3000px;"></div>
+                </div>
+            </div>
+            <div class="edit-con copy2">
+                <div class="edit-status off" ng-class="{off: $filter(&#39;isBlank&#39;)(note2)}"><i class="edge"></i>
+                    <div class="edit-mode-switch" ng-click="layer.toggle(&#39;EditMode&#39;)"><span class="ng-binding">纯文本模式</span>
+                        <div class="edit-mode-switch-arrow"></div>
+                    </div>
+                    <span class="favorite" ng-class="{&#39;on&#39;: $filter(&#39;isFavorite&#39;)(note2)}"></span> <span
+                            class="split-line"></span> <span class="counter ng-binding">共 0 字</span> <span
+                            class="split-line"></span> <span class="time ng-binding"> NaN:0NaN AM</span> <span
+                            class="split-line"></span>
+                    <div class="folder"><span ng-bind-html="note2|folderName" class="ng-binding"></span><i></i></div>
+                </div>
+                <div class="edit-area disable-select">
+                    <div class="edge"></div>
+                    <div class="note-editor" id="editorcopy2" style="height: auto;">
+                        <div class="CodeMirror cm-s-default CodeMirror-wrap">
+                            <div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 0px;">
+                                <textarea autocorrect="off" autocapitalize="off" spellcheck="false"
+                                          style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none;"
+                                          tabindex="0"></textarea></div>
+                            <div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div>
+                            <div class="CodeMirror-gutter-filler" cm-not-content="true"></div>
+                            <div class="CodeMirror-scroll" tabindex="-1">
+                                <div class="CodeMirror-sizer"
+                                     style="margin-left: 0px; margin-bottom: -17px; border-right-width: 13px; min-height: 50px; padding-right: 0px; padding-bottom: 0px;">
+                                    <div style="position: relative; top: 0px;">
+                                        <div class="CodeMirror-lines">
+                                            <div style="position: relative; outline: none;">
+                                                <div class="CodeMirror-measure">
+                                                    <pre><span>xxxxxxxxxx</span></pre>
+                                                </div>
+                                                <div class="CodeMirror-measure"></div>
+                                                <div style="position: relative; z-index: 1;"></div>
+                                                <div class="CodeMirror-cursors">
+                                                    <div class="CodeMirror-cursor"
+                                                         style="left: 0px; top: 0px; height: 50px;">&nbsp;
+                                                    </div>
+                                                </div>
+                                                <div class="CodeMirror-code">
+                                                    <pre class=" CodeMirror-line "><span
+                                                            style="padding-right: 0.1px;"><span
+                                                            cm-text="">​</span></span></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="position: absolute; height: 13px; width: 1px; border-bottom: 0px solid transparent; top: 50px;"></div>
+                                <div class="CodeMirror-gutters" style="display: none; height: 63px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alt-input" style="top: 0px; left: -3000px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="note-preview a-note-preview ps-container ps-theme-default" preview="" scrollbar="Preview"
+             data-ps-id="519327b5-76f2-87e3-e7dc-9f8b65fd7c18">
+            <div class="web-preview a-web-preview on">
+                <div class="page-wrap a-page-wrap" style="visibility:hidden;">
+                    <div class="page-border">
+                        <div class="wrap-top"></div>
+                        <div class="wrap-right"></div>
+                        <div class="wrap-bottom"></div>
+                        <div class="wrap-left"></div>
+                        <div id="page-container" class="page-container"></div>
+                    </div>
+                    <div class="via-copy"></div>
+                </div>
+            </div>
+            <div class="img-preview a-img-preview"><img class="preview-img" src="./saved_resource"></div>
+            <img class="preview-loading a-preview-loading" src="./loading-global_e8f420ff7d.gif">
+            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            </div>
+            <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-wrap a-dialog-wrap" stopdragclick="">
+        <div class="dialog-outter a-dialog-outter">
+            <div class="dialog-middle">
+                <div class="dialog-inner">
+                    <div class="dialog a-dialog">
+                        <div class="dialog-container delete-note a-delete-note-dialog" stopbubble=""
+                             dialog="DeleteNote">
+                            <div class="dialog-tit"><span ng-bind-html="&#39;DELETE_TITLE&#39;|i18n" class="ng-binding">删除</span><span
+                                    class="close" ng-click="mainTask.dialogCancel()"></span></div>
+                            <div class="dialog-con ng-binding" ng-bind-html="&#39;FORCE_DELETE_NOTE_TIP&#39;|i18n">
+                                确认要彻底删除选中的便签？
+                            </div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container delete-note a-move-to-trash-dialog" stopbubble=""
+                             dialog="MoveToTrash">
+                            <div class="dialog-tit"><span ng-bind-html="&#39;DELETE_TITLE&#39;|i18n" class="ng-binding">删除</span><span
+                                    class="close" ng-click="mainTask.dialogCancel()"></span></div>
+                            <div class="dialog-con ng-binding" ng-bind-html="&#39;DELETE_NOTE_TIP&#39;|i18n">
+                                确认要删除选中的便签？
+                            </div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container delete-folder a-delete-folder-dialog" stopbubble=""
+                             dialog="DeleteFolder">
+                            <div class="dialog-tit">删除文件夹？<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">确认要删除文件夹 “<span ng-bind-html="dialogContent.title|titleEmoji"
+                                                                    class="ng-binding"></span>” 吗？此操作不会删除该文件夹中的便签。
+                            </div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container delete-img a-delete-img-dialog" stopbubble="" dialog="DeleteImage">
+                            <div class="dialog-tit"><span ng-bind-html="&#39;DELETE_TITLE&#39;|i18n" class="ng-binding">删除</span><span
+                                    class="close" ng-click="mainTask.dialogCancel()"></span></div>
+                            <div class="dialog-con">确认要删除该图片？</div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container progress-bar" stopbubble="" dialog="ProgressBar">
+                            <div class="dialog-tit">图片上传中<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">
+                                <div class="upload-progress-bg">
+                                    <div class="upload-progress-bar a-upload-progress-bar" style="width:0%"></div>
+                                </div>
+                            </div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()">
+                                    <span>取消上传</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container clip-image a-clip-image" stopbubble="" dialog="ClipImage">
+                            <div class="dialog-tit">图片裁剪<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">
+                                <div class="clip-wrap">
+                                    <div class="clip-bg"><img src="./saved_resource">
+                                        <div class="clip-mask"></div>
+                                    </div>
+                                    <div class="clip-layout">
+                                        <div class="clip-region">
+                                            <div class="clip-region-img"><img src="./saved_resource"></div>
+                                            <div class="clip-pointer left-top" data-type="left-top"></div>
+                                            <div class="clip-pointer left-mid" data-type="left-mid"></div>
+                                            <div class="clip-pointer left-bottom" data-type="left-bottom"></div>
+                                            <div class="clip-pointer mid-top" data-type="mid-top"></div>
+                                            <div class="clip-pointer mid-bottom" data-type="mid-bottom"></div>
+                                            <div class="clip-pointer right-top" data-type="right-top"></div>
+                                            <div class="clip-pointer right-mid" data-type="right-mid"></div>
+                                            <div class="clip-pointer right-bottom" data-type="right-bottom"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container dialog-tip" stopbubble="" dialog="DialogTip">
+                            <div class="dialog-con">
+                                <div class="dialog-title"></div>
+                            </div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogCancel()">确定</div>
+                            </div>
+                        </div>
+                        <div class="dialog-container exit-multi" stopbubble="" dialog="ExitMulti">
+                            <div class="dialog-tit">退出<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">点击“确定”按钮将会退出多选模式</div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container share-link-dialog" stopbubble="" dialog="WebShare">
+                            <div class="dialog-tit">分享<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">
+                                <div class="share-link">
+                                    <div class="share-tit">复制分享链接</div>
+                                    <div class="share-con"><input ng-value="sharelink" type="text" readonly=""></div>
+                                </div>
+                                <div class="share-weixin">
+                                    <div class="share-tit">分享到微信朋友圈</div>
+                                    <div class="share-con">
+                                        <div class="dialog-weixin-qrcode" id="dialog-weixin-qrcode"></div>
+                                        <div class="dialog-weixin-logo"><img src="./weixin_logo_e289b45599.png"></div>
+                                        <div class="dialog-weixin-tips">打开微信<br><br>使用右上角的扫一扫功能扫描左侧二维码<br><br>打开页面后，点击右上角三个点选择分享到朋友圈
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="share-weibo">
+                                    <div class="share-tit">分享到新浪微博</div>
+                                    <div class="share-con">
+                                        <div class="btn-primary" ng-click="shareLongWeibo()"><span>分享到新浪微博</span></div>
+                                    </div>
+                                </div>
+                                <div class="share-other">
+                                    <div class="share-tit">更多分享 <a class="douban"
+                                                                   data-href="http://www.douban.com/share/service?href=$1&amp;name=$2"
+                                                                   href="./saved_resource" target="_blank">豆瓣</a> <a
+                                            class="qzone"
+                                            data-href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=$1&amp;title=$2&amp;pics=$3"
+                                            href="./saved_resource" target="_blank">Qzone</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dialog-container short-weibo-share-dialog" dialog="ShortWeiboShare" stopbubble="">
+                            <div class="dialog-tit"><span class="weibo-icon"></span>分享到&nbsp;<span
+                                    ng-bind-html="dialogContent.weiboName|titleEmoji" class="ng-binding"></span>&nbsp;的微博<span
+                                    class="close" ng-click="mainTask.dialogCancel()"></span></div>
+                            <div class="dialog-con">
+                                <div class="input-wrap"><textarea id="short-weibo-share-content"></textarea></div>
+                            </div>
+                            <div class="dialog-buttons">
+                                <div class="words-left">还可以输入&nbsp;<span>140</span>&nbsp;字</div>
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()()">
+                                    <span>分享</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container move-note-dialog" dialog="MoveNoteToFolder" stopbubble="">
+                            <div class="dialog-tit">移动到...<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">
+                                <div class="list-wrap" folderlist="">
+                                    <div class="item ng-binding disabled" ng-click="task.listClick(all)"
+                                         ng-class="{on:all == curFolder,disabled:isDisabled(all)}"><span
+                                            class="icon"><b></b></span>全部便签
+                                    </div>
+                                    <div class="item item-temp ng-binding ng-hide" ng-show="temp.isShow"><span
+                                            class="icon"><b></b></span></div><!-- ngRepeat: item in folderList -->
+                                    <!-- ngIf: $index > 0 --><!-- end ngRepeat: item in folderList -->
+                                    <div class="input-wrap">
+                                        <div class="input-border">
+                                            <div class="input"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-default f-l ml-0"
+                                     ng-click="mainTask.dialogCustom(&#39;CreateFolder&#39;)"><span>新建文件夹</span></div>
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()">
+                                    <span>移动</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container login-timeout-dialog a-login-timeout-dialog" dialog="LoginTimeout"
+                             stopbubble="">
+                            <div class="dialog-tit"><span ng-bind-html="&#39;LOGIN_TIMEOUT&#39;|i18n"
+                                                          class="ng-binding">登录超时</span></div>
+                            <div class="dialog-con">
+                                <div class="dialog-content ng-binding" ng-bind-html="&#39;DIALOG_RELOGIN_TIP&#39;|i18n">
+                                    您已退出登录，当前操作无法保存，请重新登录后继续使用。
+                                </div>
+                            </div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;RELOGIN&#39;|i18n" class="ng-binding">重新登录</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container delete-folder a-recover-note-dialog" stopbubble=""
+                             dialog="RecoverNote">
+                            <div class="dialog-tit">恢复便签<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">是否要恢复该便签？</div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container clean-trash a-clear-trash-dialog" stopbubble=""
+                             dialog="ClearTrash">
+                            <div class="dialog-tit">清空回收站？<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">确定要清空“回收站”文件夹里的所有便签吗？此操作无法撤销，请谨慎选择。</div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container qrcode-tip" stopbubble="" dialog="QrcodeTip">
+                            <div class="dialog-tit">提示<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">新浪长微博可能无法正常显示文中的二维码，是否继续？</div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                        <div class="dialog-container rtf-style-delete" stopbubble="" dialog="RtfStyleDelete">
+                            <div class="dialog-tit">提示<span class="close" ng-click="mainTask.dialogCancel()"></span>
+                            </div>
+                            <div class="dialog-con">退出富文本模式后会使当前的排版格式失效，是否继续？</div>
+                            <div class="dialog-buttons">
+                                <div role="button" class="btn-primary" ng-click="mainTask.dialogConfirm()"><span
+                                        ng-bind-html="&#39;CONFIRM_BTN&#39;|i18n" class="ng-binding">确认</span></div>
+                                <div role="button" class="btn-default" ng-click="mainTask.dialogCancel()"><span
+                                        ng-bind-html="&#39;CANCEL_BTN&#39;|i18n" class="ng-binding">取消</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mask a-mask"></div>
+    </div>
+    <div class="tips a-tips"><span class="ng-binding"></span></div>
+    <div class="context-menu-wrap">
+        <div class="folder-context-menu" contextmenu="FolderMenu" contextmenuhandler="">
+            <div class="item first" action-name="rename">重命名</div>
+            <div class="item last" action-name="delete">删除</div>
+        </div>
+    </div>
+</div>
+<img id="emoji_path_config" src="./00A9.png" style="display:none;">
+<script src="./note-dep_50b27376e9.js.下载"></script>
+<script src="./note-app_a6b5a7cea2.js.下载"></script>
+<div class="cm-image-copy">
+    <div class="img"></div>
+</div>
+</body>
+</html>
